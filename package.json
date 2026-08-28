@@ -1,0 +1,16 @@
+{
+  "name": "belman-scalculator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Calculadora Web Básica — proyecto por fases (planificación, diseño/implementación, pruebas/despliegue).",
+  "workspaces": [
+    "Fase 2 - Diseño e Implementacion/implementacion"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace \"Fase 2 - Diseño e Implementacion/implementacion\"",
+    "build": "npm run build --workspace \"Fase 2 - Diseño e Implementacion/implementacion\"",
+    "preview": "npm run preview --workspace \"Fase 2 - Diseño e Implementacion/implementacion\"",
+    "test": "npm test --workspace \"Fase 2 - Diseño e Implementacion/implementacion\"",
+    "test:coverage": "npm run test:coverage --workspace \"Fase 2 - Diseño e Implementacion/implementacion\""
+  }
+}

@@ -1,0 +1,67 @@
+/* Estilos de página. La paleta y el layout provienen de
+   ../../diseno/prototipo.html (referencia visual del cliente). */
+:root {
+  --bg: #e7edf2;
+  --card: #ffffff;
+  --card-border: #d7e0e7;
+  --screen: #1c2733;
+  --screen-sub: #7c8ca0;
+  --screen-text: #f4f7fa;
+  --screen-error: #ff9b82;
+  --key-num: #f3f5f8;
+  --key-num-text: #1c2733;
+  --key-num-hover: #e7ecf1;
+  --key-op: #3e7c7c;
+  --key-op-hover: #356b6b;
+  --key-eq: #1c2733;
+  --key-eq-hover: #101823;
+  --key-func: #fbeae6;
+  --key-func-text: #c1502f;
+  --key-func-hover: #f5dad3;
+  --shadow: 0 24px 48px -12px rgba(28, 39, 51, 0.18), 0 4px 12px rgba(28, 39, 51, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(62, 124, 124, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(200, 90, 65, 0.06), transparent 40%);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--key-num-text);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.page-label {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--screen-sub);
+  font-weight: 600;
+}
+
+.footnote {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #9aa7b5;
+}
