@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora — Prototipo de interfaz</title>
+<style>
+  :root{
+    --bg: #E7EDF2;
+    --card: #FFFFFF;
+    --card-border: #D7E0E7;
+    --screen: #1C2733;
+    --screen-sub: #7C8CA0;
+    --screen-text: #F4F7FA;
+    --key-num: #F3F5F8;
+    --key-num-text: #1C2733;
+    --key-num-hover: #E7ECF1;
+    --key-op: #3E7C7C;
+    --key-op-hover: #356B6B;
+    --key-eq: #1C2733;
+    --key-eq-hover: #101823;
+    --key-func: #FBEAE6;
+    --key-func-text: #C1502F;
+    --key-func-hover: #F5DAD3;
+    --shadow: 0 24px 48px -12px rgba(28, 39, 51, 0.18), 0 4px 12px rgba(28, 39, 51, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(62,124,124,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(200,90,65,0.06), transparent 40%);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .page-label{
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #7C8CA0;
+    font-weight: 600;
+  }
+
+  .calculator{
+    width: 320px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 28px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+
+  .calculator-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 4px 16px 4px;
+  }
+
+  .calculator-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: #1C2733;
+    letter-spacing: 0.01em;
+  }
+
+  .calculator-mode{
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7C8CA0;
+    background: #EEF2F5;
+    padding: 4px 8px;
+    border-radius: 999px;
+  }
+
+  .screen{
+    background: var(--screen);
+    border-radius: 18px;
+    padding: 22px 18px 18px 18px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-height: 96px;
+    justify-content: flex-end;
+  }
+
+  .screen-history{
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--screen-sub);
+    letter-spacing: 0.02em;
+  }
+
+  .screen-result{
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--screen-text);
+    line-height: 1;
+  }
+
+  .keys{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .key{
+    border: none;
+    border-radius: 14px;
+    padding: 0;
+    height: 58px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: default;
+    background: var(--key-num);
+    color: var(--key-num-text);
+    transition: background 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .key:hover{ background: var(--key-num-hover); }
+
+  .key.func{
+    background: var(--key-func);
+    color: var(--key-func-text);
+    font-size: 15px;
+  }
+  .key.func:hover{ background: var(--key-func-hover); }
+
+  .key.op{
+    background: var(--key-op);
+    color: #FFFFFF;
+    font-size: 20px;
+  }
+  .key.op:hover{ background: var(--key-op-hover); }
+
+  .key.eq{
+    background: var(--key-eq);
+    color: #FFFFFF;
+    font-size: 20px;
+  }
+  .key.eq:hover{ background: var(--key-eq-hover); }
+
+  .key.zero{
+    grid-column: span 2;
+    justify-content: center;
+  }
+
+  .footnote{
+    text-align: center;
+    margin-top: 16px;
+    font-size: 11px;
+    color: #9AA7B5;
+  }
+</style>
+</head>
+<body>
+
+  <div class="page-label">Prototipo de interfaz · sin funcionalidad</div>
+
+  <div class="calculator">
+    <div class="calculator-header">
+      <div class="calculator-title">Calculadora</div>
+      <div class="calculator-mode">Básica</div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-history">128 + 47 &minus;</div>
+      <div class="screen-result">175</div>
+    </div>
+
+    <div class="keys">
+      <button class="key func">C</button>
+      <button class="key func">⌫</button>
+      <button class="key func">%</button>
+      <button class="key op">÷</button>
+
+      <button class="key">7</button>
+      <button class="key">8</button>
+      <button class="key">9</button>
+      <button class="key op">×</button>
+
+      <button class="key">4</button>
+      <button class="key">5</button>
+      <button class="key">6</button>
+      <button class="key op">&minus;</button>
+
+      <button class="key">1</button>
+      <button class="key">2</button>
+      <button class="key">3</button>
+      <button class="key op">+</button>
+
+      <button class="key zero">0</button>
+      <button class="key">.</button>
+      <button class="key eq">=</button>
+    </div>
+  </div>
+
+  <div class="footnote">Layout de referencia — la lógica se implementará en React</div>
+
+</body>
+</html>
