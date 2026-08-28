@@ -1,0 +1,151 @@
+/* Componente Calculadora. Adaptado de ../../diseno/prototipo.html. */
+
+.calculator {
+  width: 320px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.calculator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px 16px 4px;
+}
+
+.calculator-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1c2733;
+  letter-spacing: 0.01em;
+}
+
+.calculator-mode {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7c8ca0;
+  background: #eef2f5;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.screen {
+  background: var(--screen);
+  border-radius: 18px;
+  padding: 22px 18px 18px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-height: 96px;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.screen-history {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--screen-sub);
+  letter-spacing: 0.02em;
+  min-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.screen-result {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 38px;
+  font-weight: 500;
+  color: var(--screen-text);
+  line-height: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen-error {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--screen-error);
+  line-height: 1.2;
+  text-align: right;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.key {
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  height: 58px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--key-num);
+  color: var(--key-num-text);
+  transition: background 0.15s ease, transform 0.05s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key:hover {
+  background: var(--key-num-hover);
+}
+
+.key:active {
+  transform: translateY(1px);
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--key-op);
+  outline-offset: 2px;
+}
+
+.key.func {
+  background: var(--key-func);
+  color: var(--key-func-text);
+  font-size: 15px;
+}
+
+.key.func:hover {
+  background: var(--key-func-hover);
+}
+
+.key.op {
+  background: var(--key-op);
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.key.op:hover {
+  background: var(--key-op-hover);
+}
+
+.key.eq {
+  background: var(--key-eq);
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.key.eq:hover {
+  background: var(--key-eq-hover);
+}
+
+.key.zero {
+  grid-column: span 2;
+}
