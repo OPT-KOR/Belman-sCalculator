@@ -1,7 +1,7 @@
 {
   "name": "belman-scalculator",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Calculadora Web Básica — proyecto por fases (planificación, diseño/implementación, pruebas/despliegue).",
   "workspaces": [
     "Fase 2 - Diseño e Implementacion/implementacion"

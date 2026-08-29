@@ -1,8 +1,12 @@
 /**
  * Lógica de cálculo de la calculadora básica.
  *
+ * La entrada es solo de **números enteros** (no hay punto decimal). La división es la
+ * única operación que puede producir un resultado con decimales (p. ej. 10 ÷ 3);
+ * suma, resta y multiplicación de enteros siempre dan enteros.
+ *
  * Este módulo es 100% puro (sin React) para poder probarlo de forma aislada:
- *  - `operate`      : aplica una operación a dos números y reporta errores como dato.
+ *  - `operate`           : aplica una operación a dos números y reporta errores como dato.
  *  - `calculatorReducer` : máquina de estados de la calculadora (dígitos, operadores,
  *    igual, limpiar, borrar). Soporta operaciones encadenadas.
  */
@@ -28,7 +32,7 @@ export const ERROR_INVALID = 'Operación no válida'
 const MAX_INPUT_LENGTH = 15
 
 /**
- * Redondea para eliminar el ruido de coma flotante (p. ej. 0.1 + 0.2).
+ * Redondea para eliminar el ruido de coma flotante (p. ej. 10 ÷ 3 · 3).
  * Conserva hasta 10 decimales significativos.
  */
 export function roundResult(n) {
@@ -60,11 +64,7 @@ export function operate(a, b, operator) {
 export function formatValue(n) {
   if (typeof n === 'string') return n
   if (!Number.isFinite(n)) return '0'
-  const rounded = roundResult(n)
-  if (Number.isInteger(rounded) && Math.abs(rounded) < 1e16) {
-    return String(rounded)
-  }
-  return String(rounded)
+  return String(roundResult(n))
 }
 
 /* -------------------------------------------------------------------------- */
@@ -97,25 +97,13 @@ function inputDigit(state, digit) {
   if (base.overwrite) {
     return { ...base, display: digit === '0' ? '0' : digit, overwrite: false, error: null }
   }
-  if (base.display.replace('-', '').replace('.', '').length >= MAX_INPUT_LENGTH) {
+  if (base.display.replace('-', '').length >= MAX_INPUT_LENGTH) {
     return base
   }
   if (base.display === '0') {
     return { ...base, display: digit }
   }
   return { ...base, display: base.display + digit }
-}
-
-function inputDecimal(state) {
-  const base = state.error ? initialState : state
-
-  if (base.overwrite) {
-    return { ...base, display: '0.', overwrite: false, error: null }
-  }
-  if (base.display.includes('.')) {
-    return base
-  }
-  return { ...base, display: base.display + '.' }
 }
 
 function chooseOperator(state, operator) {
@@ -201,28 +189,18 @@ function deleteLast(state) {
   return { ...state, display: display.slice(0, -1) }
 }
 
-function percent(state) {
-  if (state.error) return state
-  const value = roundResult(Number(state.display) / 100)
-  return { ...state, display: formatValue(value), overwrite: true }
-}
-
 /**
  * Reductor principal. Acciones:
  *  { type: 'digit', payload: '0'..'9' }
- *  { type: 'decimal' }
  *  { type: 'operator', payload: '+' | '−' | '×' | '÷' }
  *  { type: 'equals' }
  *  { type: 'clear' }
  *  { type: 'delete' }
- *  { type: 'percent' }
  */
 export function calculatorReducer(state, action) {
   switch (action.type) {
     case 'digit':
       return inputDigit(state, action.payload)
-    case 'decimal':
-      return inputDecimal(state)
     case 'operator':
       return chooseOperator(state, action.payload)
     case 'equals':
@@ -231,8 +209,6 @@ export function calculatorReducer(state, action) {
       return initialState
     case 'delete':
       return deleteLast(state)
-    case 'percent':
-      return percent(state)
     default:
       return state
   }

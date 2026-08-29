@@ -83,6 +83,7 @@
 .keys {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 58px;
   gap: 10px;
 }
 
@@ -90,7 +91,7 @@
   border: none;
   border-radius: 14px;
   padding: 0;
-  height: 58px;
+  height: 100%;
   font-family: inherit;
   font-size: 18px;
   font-weight: 600;
@@ -146,6 +147,10 @@
   background: var(--key-eq-hover);
 }
 
-.key.zero {
-  grid-column: span 2;
+.key--wide {
+  grid-column: span 3;
+}
+
+.key--tall {
+  grid-row: span 2;
 }

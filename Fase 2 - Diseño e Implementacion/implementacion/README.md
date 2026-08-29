@@ -1,6 +1,8 @@
 # Implementación — App React
 
 Aplicación de la calculadora básica construida con **React 18 + Vite**.
+Entrada **solo de números enteros**; la división es la única operación que puede dar un
+resultado con decimales.
 
 ## Requisitos
 
@@ -33,7 +35,7 @@ src/
     ├── Calculator.jsx       contenedor (une estado + UI)
     ├── Calculator.css       estilos del componente (adaptados del prototipo)
     ├── Display.jsx          pantalla: historial + resultado / mensaje de error
-    ├── Keypad.jsx           teclado de 4 columnas
+    ├── Keypad.jsx           teclado de 4 columnas (C ⌫ ÷ × / 7 8 9 − / 4 5 6 + / 1 2 3 = / 0)
     └── Key.jsx              botón individual
 ```
 
@@ -45,19 +47,22 @@ src/
 - **Errores como dato, no como excepción.** `operate()` devuelve `{ error }` en vez de lanzar.
   La división entre cero deja la calculadora en un estado de error visible y recuperable
   (con `C` o tecleando un número nuevo); la app nunca se rompe.
-- **Ruido de coma flotante.** `roundResult()` redondea a 10 decimales para evitar
-  resultados como `0.1 + 0.2 = 0.30000000000000004`.
-- **Referencia visual.** La paleta de colores y el layout (teclado 4 columnas, pantalla
-  oscura con historial y resultado) provienen de `../diseno/prototipo.html`.
+- **Solo enteros.** No hay tecla ni acción de punto decimal. `10 ÷ 3` sí muestra
+  `3.3333333333` porque la división es la única operación que puede producir decimales.
+- **Ruido de coma flotante.** `roundResult()` redondea a 10 decimales el resultado de la
+  división para evitar salidas como `3.3333333333333335`.
+- **Referencia visual.** La paleta de colores y la pantalla (oscura, con historial y
+  resultado) provienen de `../diseno/prototipo.html`. El teclado se reacomodó al quitar las
+  teclas `.` y `%` (ver `../diseno/README.md`).
 
 ## Controles de teclado
 
 | Tecla física | Acción |
 |---|---|
 | `0`–`9` | dígitos |
-| `.` o `,` | punto decimal |
 | `+` `-` `*` `/` | operadores |
 | `Enter` o `=` | igual |
 | `Backspace` | borrar último dígito |
 | `Escape` | limpiar (C) |
-| `%` | porcentaje |
+
+El punto (`.` o `,`) no hace nada: la calculadora es de enteros.
