@@ -6,6 +6,42 @@ Versionado semántico: `MAYOR.MENOR.PARCHE`.
 
 ---
 
+## [1.1.0] — 2026-08-28
+
+Ajuste solicitado por el cliente tras la primera entrega: **la calculadora es de números
+enteros**, el punto decimal no debe ser una opción en las operaciones básicas.
+
+### Cambiado
+
+- La división sigue mostrando decimales cuando el resultado no es exacto (`10 ÷ 3 =
+  3.3333333333`); es la única operación que puede hacerlo. Suma, resta y multiplicación de
+  enteros siempre dan enteros.
+- Reacomodo del teclado al quedar libres dos posiciones: `÷ ×` pasan a la fila superior,
+  la tecla `=` ocupa dos filas y el `0` ocupa tres columnas (layout tipo calculadora clásica).
+  `Key.jsx` ahora acepta `size="wide" | "tall"` en vez de la clase `zero`.
+- `roundResult()` se documenta como redondeo del resultado de la división (antes: "ruido de
+  coma flotante en general").
+
+### Eliminado
+
+- Tecla y acción de **punto decimal** (`.`). La acción `decimal` del reductor y el mapeo de
+  las teclas físicas `.` / `,` se retiraron; el reductor ignora la acción si llega.
+- Tecla y acción de **porcentaje** (`%`), incompatible con la entrada de solo enteros y fuera
+  de las operaciones básicas. Se retiró también el mapeo de la tecla física `%`.
+
+### Pruebas
+
+- Suite actualizada: **58 casos** (antes 53). Nuevos grupos: `entrada de dígitos (solo
+  enteros)`, `UI — solo enteros (sin punto decimal)`, `la división es la única que puede dar
+  decimales`. Se retiraron los casos de entrada decimal.
+
+### Sin cambios
+
+- `prototipo.html` se conserva tal cual (registro de la referencia visual original). La
+  divergencia queda documentada en `Fase 2 .../diseno/README.md`.
+
+---
+
 ## [1.0.0] — 2026-09-03
 
 Primera entrega al cliente. Cumple el alcance validado en la Fase 1.

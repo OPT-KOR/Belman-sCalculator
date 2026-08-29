@@ -5,9 +5,6 @@ import { calculatorReducer, initialState, MINUS } from './calculator.js'
 function keyToAction(key) {
   if (key >= '0' && key <= '9') return { type: 'digit', payload: key }
   switch (key) {
-    case '.':
-    case ',':
-      return { type: 'decimal' }
     case '+':
       return { type: 'operator', payload: '+' }
     case '-':
@@ -25,8 +22,6 @@ function keyToAction(key) {
       return { type: 'delete' }
     case 'Escape':
       return { type: 'clear' }
-    case '%':
-      return { type: 'percent' }
     default:
       return null
   }
@@ -40,12 +35,10 @@ export function useCalculator() {
   const [state, dispatch] = useReducer(calculatorReducer, initialState)
 
   const inputDigit = useCallback((d) => dispatch({ type: 'digit', payload: String(d) }), [])
-  const inputDecimal = useCallback(() => dispatch({ type: 'decimal' }), [])
   const chooseOperator = useCallback((op) => dispatch({ type: 'operator', payload: op }), [])
   const equals = useCallback(() => dispatch({ type: 'equals' }), [])
   const clear = useCallback(() => dispatch({ type: 'clear' }), [])
   const deleteLast = useCallback(() => dispatch({ type: 'delete' }), [])
-  const percent = useCallback(() => dispatch({ type: 'percent' }), [])
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -62,11 +55,9 @@ export function useCalculator() {
   return {
     state,
     inputDigit,
-    inputDecimal,
     chooseOperator,
     equals,
     clear,
     deleteLast,
-    percent,
   }
 }

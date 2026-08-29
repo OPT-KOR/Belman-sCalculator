@@ -20,12 +20,14 @@ Fase 1 y produce la aplicación funcional.
 - [x] Lógica de cálculo pura y aislada (`src/logic/calculator.js`): máquina de estados con
       soporte de operaciones encadenadas.
 - [x] Cuatro operaciones básicas: suma, resta, multiplicación y división.
+- [x] Entrada **solo de números enteros** (sin punto decimal); la división es la única
+      operación que puede mostrar decimales (decisión del cliente, v1.1.0).
 - [x] Manejo interno de errores: la división entre cero deja un estado de error visible y
       recuperable; la app no se rompe.
 - [x] Botón limpiar (`C`) y borrar último dígito (`⌫`).
 - [x] Componentes reales: `Calculator`, `Display`, `Keypad`, `Key`.
 - [x] Estilos fieles al prototipo (teclado 4 columnas, pantalla con historial y resultado).
-- [x] Extra: control por teclado físico, tecla `%`.
+- [x] Extra: control por teclado físico.
 
 ## Cómo ejecutar
 

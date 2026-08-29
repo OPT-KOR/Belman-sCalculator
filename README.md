@@ -40,8 +40,9 @@ npm test         # pruebas unitarias (incluye las de Fase 3/pruebas)
 
 ## Alcance
 
-**Incluye:** cuatro operaciones básicas, manejo interno de errores (división entre cero),
-botón de limpiar (`C`) y borrar último dígito (`⌫`).
+**Incluye:** cuatro operaciones básicas con **entrada de números enteros** (la división puede
+dar un resultado con decimales), manejo interno de errores (división entre cero), botón de
+limpiar (`C`) y borrar último dígito (`⌫`).
 
 **Fuera de alcance:** funciones científicas, historial persistente de operaciones,
 requisitos de diseño visual específicos.

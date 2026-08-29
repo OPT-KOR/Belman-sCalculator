@@ -14,7 +14,7 @@ function run(actions, from = initialState) {
   return actions.reduce((state, action) => calculatorReducer(state, action), from)
 }
 const digit = (d) => ({ type: 'digit', payload: String(d) })
-const digits = (str) => [...String(str)].map((c) => (c === '.' ? { type: 'decimal' } : digit(c)))
+const digits = (str) => [...String(str)].map(digit)
 const op = (o) => ({ type: 'operator', payload: o })
 const equals = { type: 'equals' }
 const clear = { type: 'clear' }
@@ -30,7 +30,7 @@ describe('operate() — las 4 operaciones básicas', () => {
   it('multiplicación', () => {
     expect(operate(6, 7, '×')).toEqual({ value: 42 })
   })
-  it('división', () => {
+  it('división exacta', () => {
     expect(operate(20, 5, '÷')).toEqual({ value: 4 })
   })
   it('división con resultado decimal', () => {
@@ -58,29 +58,28 @@ describe('operate() — casos límite', () => {
   })
 })
 
-describe('roundResult() — ruido de coma flotante', () => {
-  it('0.1 + 0.2 === 0.3', () => {
-    expect(roundResult(0.1 + 0.2)).toBe(0.3)
-    expect(operate(0.1, 0.2, '+')).toEqual({ value: 0.3 })
+describe('roundResult() — ruido de coma flotante en divisiones', () => {
+  it('quita el ruido de 10 ÷ 3', () => {
+    expect(roundResult(10 / 3)).toBe(3.3333333333)
   })
-  it('1.1 * 1.1 === 1.21', () => {
-    expect(operate(1.1, 1.1, '×')).toEqual({ value: 1.21 })
+  it('0.1 + 0.2 redondea a 0.3', () => {
+    expect(roundResult(0.1 + 0.2)).toBe(0.3)
   })
 })
 
-describe('calculatorReducer — entrada de dígitos y decimales', () => {
+describe('calculatorReducer — entrada de dígitos (solo enteros)', () => {
   it('parte de "0"', () => {
     expect(initialState.display).toBe('0')
   })
   it('teclear dígitos reemplaza el 0 inicial', () => {
     expect(run(digits('123')).display).toBe('123')
   })
-  it('un solo punto decimal por número', () => {
-    expect(run(digits('1.5')).display).toBe('1.5')
-    expect(run([...digits('1.5'), { type: 'decimal' }]).display).toBe('1.5')
+  it('no existe entrada de punto decimal: la acción "decimal" se ignora', () => {
+    expect(run([{ type: 'decimal' }]).display).toBe('0')
+    expect(run([...digits('12'), { type: 'decimal' }, ...digits('5')]).display).toBe('125')
   })
-  it('punto inicial produce "0."', () => {
-    expect(run([{ type: 'decimal' }]).display).toBe('0.')
+  it('una acción desconocida no cambia el estado', () => {
+    expect(run([{ type: 'porcentaje' }])).toEqual(initialState)
   })
 })
 
@@ -96,8 +95,8 @@ describe('calculatorReducer — operaciones simples', () => {
   it('9 − 4 = 5 (con signo menos real)', () => {
     expect(run([...digits('9'), op(MINUS), ...digits('4'), equals]).display).toBe('5')
   })
-  it('10 ÷ 4 = 2.5', () => {
-    expect(run([...digits('10'), op('÷'), ...digits('4'), equals]).display).toBe('2.5')
+  it('20 ÷ 5 = 4', () => {
+    expect(run([...digits('20'), op('÷'), ...digits('5'), equals]).display).toBe('4')
   })
 })
 
@@ -155,6 +154,13 @@ describe('calculatorReducer — operaciones encadenadas', () => {
     ])
     expect(s.display).toBe('50')
   })
+  it('encadena sobre un resultado decimal de división: 10 ÷ 4 × 2 = 5', () => {
+    const s = run([
+      ...digits('10'), op('÷'), ...digits('4'), // parcial 2.5
+      op('×'), ...digits('2'), equals,
+    ])
+    expect(s.display).toBe('5')
+  })
 })
 
 describe('calculatorReducer — limpiar (C) y borrar (⌫)', () => {
@@ -174,17 +180,18 @@ describe('calculatorReducer — limpiar (C) y borrar (⌫)', () => {
   })
 })
 
-describe('calculatorReducer — decimales', () => {
-  it('0.1 + 0.2 = 0.3', () => {
-    const s = run([...digits('0.1'), op('+'), ...digits('0.2'), equals])
-    expect(s.display).toBe('0.3')
+describe('calculatorReducer — la división es la única que puede dar decimales', () => {
+  it('10 ÷ 4 = 2.5', () => {
+    expect(run([...digits('10'), op('÷'), ...digits('4'), equals]).display).toBe('2.5')
   })
-  it('1.5 × 2 = 3', () => {
-    const s = run([...digits('1.5'), op('×'), ...digits('2'), equals])
-    expect(s.display).toBe('3')
+  it('7 ÷ 2 = 3.5', () => {
+    expect(run([...digits('7'), op('÷'), ...digits('2'), equals]).display).toBe('3.5')
   })
   it('10 ÷ 3 se redondea a 10 decimales', () => {
-    const s = run([...digits('10'), op('÷'), ...digits('3'), equals])
-    expect(s.display).toBe('3.3333333333')
+    expect(run([...digits('10'), op('÷'), ...digits('3'), equals]).display).toBe('3.3333333333')
+  })
+  it('sumar/restar/multiplicar enteros siempre da un entero', () => {
+    expect(run([...digits('7'), op('+'), ...digits('8'), equals]).display).toBe('15')
+    expect(run([...digits('7'), op('×'), ...digits('3'), equals]).display).toBe('21')
   })
 })

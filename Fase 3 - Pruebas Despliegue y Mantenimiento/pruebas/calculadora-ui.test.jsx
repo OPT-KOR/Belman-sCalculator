@@ -15,9 +15,7 @@ async function press(user, ...labels) {
     '/': 'Dividir',
     '=': 'Igual',
     C: 'Limpiar',
-    '.': 'Punto decimal',
-    '%': 'Porcentaje',
-    'del': 'Borrar último dígito',
+    del: 'Borrar último dígito',
   }
   for (const label of labels) {
     const name = nameMap[label] ?? label
@@ -58,6 +56,26 @@ describe('Calculadora (UI) — operaciones básicas con clics', () => {
   })
 })
 
+describe('Calculadora (UI) — solo enteros (sin punto decimal)', () => {
+  it('no hay tecla de punto decimal', () => {
+    render(<Calculator />)
+    expect(screen.queryByRole('button', { name: 'Punto decimal' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '.' })).not.toBeInTheDocument()
+  })
+
+  it('no hay tecla de porcentaje', () => {
+    render(<Calculator />)
+    expect(screen.queryByRole('button', { name: 'Porcentaje' })).not.toBeInTheDocument()
+  })
+
+  it('el teclado físico ignora el punto: "1.5" se teclea como "15"', async () => {
+    const user = userEvent.setup()
+    render(<Calculator />)
+    await user.keyboard('1.5')
+    expect(result()).toBe('15')
+  })
+})
+
 describe('Calculadora (UI) — división entre cero', () => {
   it('muestra un mensaje de error y la app sigue viva', async () => {
     const user = userEvent.setup()
@@ -88,12 +106,12 @@ describe('Calculadora (UI) — división entre cero', () => {
   })
 })
 
-describe('Calculadora (UI) — decimales y encadenadas', () => {
-  it('0.1 + 0.2 = 0.3 (sin ruido de coma flotante)', async () => {
+describe('Calculadora (UI) — división con decimales y encadenadas', () => {
+  it('la división puede dar decimales: 10 ÷ 4 = 2.5', async () => {
     const user = userEvent.setup()
     render(<Calculator />)
-    await press(user, '.', '1', '+', '.', '2', '=')
-    expect(result()).toBe('0.3')
+    await press(user, '1', '0', '÷', '4', '=')
+    expect(result()).toBe('2.5')
   })
 
   it('operación encadenada: 2 + 3 + 4 = 9', async () => {

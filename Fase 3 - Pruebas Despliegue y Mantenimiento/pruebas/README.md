@@ -42,11 +42,11 @@ del subproyecto. Las dependencias (`react`, `@testing-library/*`) se resuelven d
 
 | Archivo | Qué cubre | Nº de casos |
 |---|---|---|
-| `calculadora-logica.test.js` | Lógica pura (`operate`, `roundResult`, `calculatorReducer`). | 37 |
-| `calculadora-ui.test.jsx` | Componente `Calculator` con clics y teclado (React Testing Library + `user-event`). | 14 |
+| `calculadora-logica.test.js` | Lógica pura (`operate`, `roundResult`, `calculatorReducer`). | 39 |
+| `calculadora-ui.test.jsx` | Componente `Calculator` con clics y teclado (React Testing Library + `user-event`). | 17 |
 | *(en `implementacion/src/`)* `Calculator.smoke.test.jsx` | Montaje básico del componente. | 2 |
 
-**Total: 53 casos.**
+**Total: 58 casos.**
 
 ## Cobertura por requerimiento
 
@@ -54,8 +54,9 @@ del subproyecto. Las dependencias (`react`, `@testing-library/*`) se resuelven d
 |---|---|
 | Suma, resta, multiplicación, división | `operate() — las 4 operaciones básicas`, `operaciones simples`, `UI — operaciones básicas con clics` |
 | **División entre cero no rompe la app** | `operate() — casos límite` (no lanza, error como dato), `división entre cero no rompe la app` (estado de error + recuperación con `C` y tecleando), `UI — división entre cero` (mensaje visible, app viva) |
-| **Decimales** | `roundResult() — ruido de coma flotante` (`0.1 + 0.2 = 0.3`), `calculatorReducer — decimales`, `10 ÷ 3` redondeado a 10 decimales |
-| **Operaciones encadenadas** | `calculatorReducer — operaciones encadenadas` (parciales, sin precedencia, cambio de operador, encadenar resultado de `=`), `UI — decimales y encadenadas` |
+| **Solo enteros (sin punto decimal)** | `calculatorReducer — entrada de dígitos (solo enteros)` (la acción `decimal` se ignora), `UI — solo enteros` (no existe la tecla `.` ni `%`; el punto físico se ignora) |
+| **Decimales en la división** | `roundResult() — ruido de coma flotante en divisiones`, `la división es la única que puede dar decimales` (`10 ÷ 4 = 2.5`, `7 ÷ 2 = 3.5`, `10 ÷ 3` redondeado a 10 decimales), `UI — 10 ÷ 4 = 2.5` |
+| **Operaciones encadenadas** | `calculatorReducer — operaciones encadenadas` (parciales, sin precedencia, cambio de operador, encadenar resultado de `=`, encadenar sobre un decimal de división), `UI — división con decimales y encadenadas` |
 | Limpiar (`C`) y borrar (`⌫`) | `calculatorReducer — limpiar (C) y borrar (⌫)`, `UI — limpiar y borrar` |
 | Overflow / resultado no finito | `operate() — casos límite` (`1e308 × 1e308` → error controlado) |
 | Control por teclado físico | `UI — teclado físico` |
@@ -64,5 +65,5 @@ del subproyecto. Las dependencias (`react`, `@testing-library/*`) se resuelven d
 
 ```
  Test Files  3 passed (3)
-      Tests  53 passed (53)
+      Tests  58 passed (58)
 ```
