@@ -39,6 +39,9 @@ src/
     └── Key.jsx              botón individual
 ```
 
+Para el detalle de qué tarea de implementación se resuelve en cada archivo y línea, ver
+[`trazabilidad-implementacion.md`](./trazabilidad-implementacion.md).
+
 ## Decisiones de diseño
 
 - **Lógica separada de la UI.** Toda la aritmética y la máquina de estados viven en
